@@ -315,9 +315,36 @@ https://react-router.docschina.org/web/example/basic
 npm i react-router-dom --save
 ```
 
-- 使用
+- 使用(`BrowserRouter`, `Link`, `Route`  `NavLink`)
 
-```js
+```jsx
+// index.jsx
+import { BrowserRouter } from "react-router-dom";
+ReactDOM.render(
+      <BrowserRouter>
+          <App />
+      </BrowserRouter>,
+  document.getElementById('root')
+)
 
+//RouterTest.jsx
+import { Route, Link, NavLink } from "react-router-dom";
+import Home from "./Home";
+import About from "./About";
+export default class RouterTest extends Component {
+    render() {
+        return (
+            <div>
+                <Link to="/home">Home</Link>
+                <Link to="/about">about</Link>
+                <NavLink  activeClassName="activeClassName" to="/home">Home</NavLink>
+                <NavLink activeClassName="activeClassName" to="/about">about</NavLink>
+                <Route path='/home' component={Home}/>
+                <Route path='/about' component={About}/>
+            </div>
+        )
+    }
+}
+// NavLink相较于Link 多了一个active的样式，默认为active， 或者可以通过activeClassName修改默认的class样式
 ```
 
