@@ -303,19 +303,19 @@ console.log(c)
 
 ## 9. 路由(web)
 
-- 文档学习
+#### 文档学习
 
 ```
 https://react-router.docschina.org/web/example/basic
 ```
 
-- 安装
+#### 安装
 
 ```js
 npm i react-router-dom --save
 ```
 
-- 使用(`BrowserRouter`, `Link`, `Route`  `NavLink`)
+#### 使用(`BrowserRouter`, `Link`, `Route`  `NavLink`)
 
 ```jsx
 // index.jsx
@@ -347,4 +347,60 @@ export default class RouterTest extends Component {
 }
 // NavLink相较于Link 多了一个active的样式，默认为active， 或者可以通过activeClassName修改默认的class样式
 ```
+
+#### 使用Switch
+
+渲染与该地址匹配的第一个子节点 `<Route>` 或者 `<Redirect>`。
+
+**这与仅使用一堆 `<Route>` 有什么区别？**
+
+`<Switch>` 的独特之处在于它专门呈现路由。相比之下，与位置匹配的每个 `<Route>` 都已包含方式呈现。请考虑以下代码
+
+```jsx
+<Route path="/about" component={About}/>
+<Route path="/:user" component={User}/>
+<Route component={NoMatch}/>
+```
+
+如果 URL 是 `/about` ， 那么 `<About>` ， `<User>` ， `<NoMatch>`将全部渲染，因为他们都与路径匹配。这是通过设计实现的，允许我们以多种方式将 `<Route>` 组合到应用程序中，类似侧边栏（sidebars）和面包屑导航（breadcrumbs）， bootstrap 标签等等，但是有时候我们只想选择一条 `<Route>` 进行渲染，如果我们在 `/about` ，我们又不想匹配 `/:user` （或者显示404）。以下是如何使用 `Switch` 执行此操作:
+
+```jsx
+import { Switch, Route } from 'react-router'
+<Switch>
+  <Route exact path="/" component={Home}/>
+  <Route path="/about" component={About}/>
+  <Route path="/:user" component={User}/>
+  <Route component={NoMatch}/>
+</Switch>
+```
+
+现在，如果我们在 `/about` ，`<Switch>` 将开始查找匹配的 `<Route>` ，`<Route path="/about”/><Switch>` 将停止查找匹配项并渲染 `<About>` ，同样，如果是 `/Michael` ，则 `< User >` 将渲染。
+
+这对于动画过渡效果也很有用，因为匹配的 `<Route>` 被渲染到与前一个位置相同的位置。
+
+#### 路径问题(history模式)
+
+**问题** ：plublic文件夹 相当于根路径，当我们在`index.html`文件中，通过相对路径引入css文件 `<link rel="stylesheet" href="./css/test.css"/>`。此时，如果跳转到页面中没有定义的页面时刷新页面， css文件会找不到，并且发出警告。
+
+**解决方法**
+
+- 改为Hash模式，在Hash模式下，获取文件不会考虑`#`之后的所有数据
+- 将路径改为`<link rel="stylesheet" href="/css/test.css"/>`全局路径（**常用**）
+- 将路径改为`<link rel="stylesheet" href="%PUBLIC_URL%/css/test.css"/>`路径
+
+#### 模糊匹配与严格匹配
+
+- 模糊匹配: `Route`要的一个都不能少
+- 严格匹配：`Route`定义的path路径必须跟`Link`一致，`exact`字段。严格匹配不要随便开启。需要再开，有时会导致无法匹配二级路由
+
+#### Redirect
+
+- 当匹配的路径无法匹配不上 时，通过`Redirect`重定向到所写的路径
+
+```JSX
+<Route path="/home" component={Home}></Route>
+<Redirect to="/Home"></Redirect>
+```
+
+#### 嵌套路由
 
