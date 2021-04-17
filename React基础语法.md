@@ -404,3 +404,67 @@ import { Switch, Route } from 'react-router'
 
 #### 嵌套路由
 
+- 与一级路由类似，但需在`Link`的路径加上父级的path，`Route`也需如此
+
+#### 路由传参
+
+**方式一**
+
+- params方式: 在`Route`中需定义变量，不然模糊查询将省略后面参数
+
+```js
+ <NavLink activeClassName="activeClassName" to="/home/1/2">Home</NavLink>
+<NavLink activeClassName="activeClassName" to={`/home/${item1}/${item2}`}>Home</NavLink>
+ <Route path='/home/:id/:test' component={Home}/>
+//Home.jsx
+     console.log(this.props.match.params)
+```
+
+**方式二**
+
+- `Search`方式: 路由链接（携带参数）:`<Link to='/home/?id=1&name=djh>详情</Link>'`,注册路由无需声明
+
+**备注**:获取到的`search参数`是urlencoded编码字符串，需要用到`querystring`库(node库，react脚手架已安装)来解析`Search`方式所拿到的参数
+
+```jsx
+<NavLink activeClassName="activeClassName" to={`/home/?id=${this.state.id}&name=DJH`}>Home</NavLink>
+<NavLink activeClassName="activeClassName" to="/about">about</NavLink>
+
+<Route path='/home' component={Home}/>
+<Route path='/about' component={About}/>
+//Home.jsx
+import qs from 'querystring'
+  const { search } = this.props.location
+  console.log(this.props, 'props', qs.parse(search.slice(1)))
+```
+
+**方式三**
+
+- state方式:在地址栏不展示参数
+
+```JSX
+<NavLink activeClassName="activeClassName" to={{pathname:"/about", state: {id: 1, name:'about'}}}>about</NavLink>
+<Route path='/about' component={About}/>
+
+//about.jsx
+console.log(this.props.location.state)
+```
+
+#### 编程式导航
+
+**方式一**
+
+- 通过`this.props.history.push`,`this.props.history.replace` 
+
+```js
+ this.props.history.push({
+     pathname: '/home/test1',
+     state: {
+         id : 1,
+         test1: true
+     }
+ })
+```
+
+
+
