@@ -466,5 +466,43 @@ console.log(this.props.location.state)
  })
 ```
 
+## 10. Redux
 
+- 安装
+
+```js
+npm i redux
+```
+
+- 结构
+
+![0a8daf00a57beb478c63678f834f427](C:\Users\ADMINI~1\AppData\Local\Temp\WeChat Files\0a8daf00a57beb478c63678f834f427.png)
+
+### 求和案例
+
+1. .src下建立:
+
+   -src
+
+   ​	-redux
+
+   ​		-store.js
+
+   ​		-count_reducer.js
+
+2. .store.js
+
+   1. 引入redux中的createStore函数，创建一个store
+   2. createStore调用时要传入一个为其服务的reducer
+   3. 暴露store对象
+
+3. .count_reducer.js:
+
+   1. `reducer`的本质是一个函数，接收:preState,action，返回加工后的状态
+   2. `reducer`有两个作用: 初始化状态，加工状态
+   3. `reducer`被第一次调用时，是store自动触发的，传递的preState是`undefined`
+
+4. 在`index.js`检测store中状态的改变，一单发生改变重新渲染<App/>
+
+   备注： redux值负责管理状态，至于状态的改变驱动着页面的展示，要靠我们自己写
 
