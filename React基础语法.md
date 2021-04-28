@@ -506,3 +506,7 @@ npm i redux
 
    备注： redux值负责管理状态，至于状态的改变驱动着页面的展示，要靠我们自己写
 
+5. `redux-thunk`
+
+`applyMiddleware(thunk)`
+
