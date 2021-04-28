@@ -1,19 +1,21 @@
 import {Component} from 'react'
 import Store from '../../redux/redux'
+import {testINCREASE, testDECREASE} from '../../redux/redux_test_action'
 export default class ReduxTest extends Component {
     componentDidMount() {
         Store.subscribe(() => {
+            console.log(111, Store.getState())
             this.setState({})
         })
     }
 
     addClick = () => {
         const { value } = this.selectValue
-        Store.dispatch({ type: 'increment', data: value * 1})
+        Store.dispatch(testINCREASE(value * 1))
     }
     delClick = () => {
         const { value } = this.selectValue
-        Store.dispatch({ type: 'decrement', data: value * 1})
+        Store.dispatch(testDECREASE(value * 1))
     }
     render() {
         return (
